@@ -1,0 +1,106 @@
+.page {
+	width: 21cm;
+	min-height: 29.7cm;
+	padding: 1cm;
+	margin: 1cm auto;
+	border: 1px #d3d3d3 solid;
+	border-radius: 5px;
+	background: white;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+	font-size: 8px;
+}
+
+.font-small {
+	font-size: 10;
+}
+
+.logo-container {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	padding-bottom: 20px;
+}
+
+.logo-container > img {
+	width: 120px;
+	height: 120px;
+}
+
+.client-container {
+	margin: 20px 0 5px 0;
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+}
+
+.address-container {
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	margin-bottom: 20px;
+}
+
+.pictures-container .pictures-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 5px;
+}
+
+.pictures-container .pictures-list .picture {
+	height: 100px;
+	width: 120px;
+}
+
+.column-list {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+}
+.item-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 5px;
+}
+
+.anamnese-items {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 15px;
+}
+
+.anamnese-items > p {
+	margin: 0;
+	padding: 0;
+}
+
+.footer-container {
+	margin-top: 150px;
+	text-align: center;
+}
+
+.footer-container .footer-item {
+	width: 300px;
+	margin: 0 auto;
+}
+@page {
+	size: A4;
+	margin: 0;
+}
+@media print {
+	.page {
+		margin: 0;
+		border: initial;
+		border-radius: initial;
+		width: initial;
+		min-height: initial;
+		box-shadow: initial;
+		background: initial;
+		page-break-after: always;
+	}
+	img {
+		max-width: 100%;
+	}
+	.page-break {
+		page-break-before: always;
+	}
+}
