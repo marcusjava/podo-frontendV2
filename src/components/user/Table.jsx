@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useMemo, memo } from "react";
-import { Table, Tag, Input, Button, Row, Col, Typography } from "antd";
+import React, { useEffect, useState } from "react";
+import { Table, Tag, Input, Button, Typography } from "antd";
 import Spinner from "../layout/Spinner";
 import { useDispatch, useSelector } from "react-redux";
 import { getUsers } from "../../redux/actions/userActions";

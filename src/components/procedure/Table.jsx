@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Table, Input, Button, Row, Col, Typography } from "antd";
+import { Table, Input, Button } from "antd";
 import Spinner from "../layout/Spinner";
 import { useDispatch, useSelector } from "react-redux";
 import { getProcedures } from "../../redux/actions/procedureActions";
 import { SearchOutlined } from "@ant-design/icons";
 import Modal from "./Modal";
-
-const { Text } = Typography;
 
 const ProcedureTable = () => {
   const [data, setData] = useState([]);

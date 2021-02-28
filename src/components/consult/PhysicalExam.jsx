@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Select, Spin, Card, Row, Col, Image } from "antd";
+import { Form, Input, Col } from "antd";
 
 // import { Container } from './styles';
 

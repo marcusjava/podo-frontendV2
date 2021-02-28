@@ -18,7 +18,6 @@ import {
   saveProcedure,
   updateProcedure,
 } from "../../redux/actions/procedureActions";
-import InputPrice from "../../components/Price/InputPrice";
 
 import { useSelector, useDispatch } from "react-redux";
 import * as Yup from "yup";
@@ -28,7 +27,6 @@ const { Option } = Select;
 
 const ProcedureModal = ({ editMode = false, data }) => {
   const [visible, setVisible] = useState(false);
-  const [service, setSelectedService] = useState("");
   const [services, setServices] = useState([]);
 
   const [form] = Form.useForm();
@@ -55,7 +53,7 @@ const ProcedureModal = ({ editMode = false, data }) => {
         description: data.description,
       });
     }
-  }, [editMode, visible]);
+  }, [editMode, visible, data]);
 
   useEffect(() => {
     if (success && visible) {
@@ -102,14 +100,6 @@ const ProcedureModal = ({ editMode = false, data }) => {
   const onCancel = (e) => {
     form.resetFields();
     setVisible(false);
-  };
-
-  const checkPrice = (rule, value) => {
-    if (value.number > 0) {
-      return Promise.resolve();
-    }
-
-    return Promise.reject("Formato incorreto");
   };
 
   const buttonType = editMode ? (

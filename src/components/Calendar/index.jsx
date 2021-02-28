@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Row, Col, Calendar as Scheduled, Badge } from "antd";
+import React, { useEffect } from "react";
+import { Col, Calendar as Scheduled, Badge } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { getConsults } from "../../redux/actions/consultActions";
 import { Link } from "react-router-dom";
@@ -13,7 +13,7 @@ export default function Calendar() {
 
   useEffect(() => {
     dispatch(getConsults());
-  }, []);
+  }, [dispatch]);
 
   const getItemsByDay = (value) => {
     const date = moment(value).format("YYYY-MM-DD");

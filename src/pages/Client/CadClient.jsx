@@ -39,8 +39,6 @@ const CadClient = () => {
 
   const [form] = Form.useForm();
 
-  const { id } = useParams();
-
   const history = useHistory();
 
   const dispatch = useDispatch();
