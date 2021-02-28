@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Modal, Button, Tooltip, Form, Input, message } from "antd";
-import { useSelector, useDispatch } from "react-redux";
 import { KeyOutlined } from "@ant-design/icons";
 import axios from "axios";
 import * as Yup from "yup";
@@ -9,10 +8,8 @@ import * as Yup from "yup";
 
 function ChangePwdModal() {
   const [visible, setVisible] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   const [form] = Form.useForm();
-  const dispatch = useDispatch();
 
   const handleSubmit = async (data) => {
     try {

@@ -5,7 +5,6 @@ import {
   FcHome,
   FcBusinessman,
   FcPlus,
-  FcVoicePresentation,
   FcBriefcase,
   FcBusinesswoman,
   FcSupport,

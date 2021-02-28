@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Form, Input, Select, Spin, Card, Row, Col, Image } from "antd";
+import { Form, Select, Spin, Card, Row, Col, Image } from "antd";
 import { FORMATO_UNHAS_JSON, NOMENCLATURA_DEDOS_PE } from "./AnamneseJSON";
 import "./styles.css";
 

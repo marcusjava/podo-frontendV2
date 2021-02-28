@@ -15,7 +15,6 @@ import {
 import axios from "axios";
 import UploadFile from "../../components/upload";
 import InputMask from "react-input-mask";
-import { updateClient } from "../../redux/actions/clientActions";
 import { useHistory, useParams } from "react-router-dom";
 import moment from "moment";
 
@@ -31,7 +30,6 @@ const EditClient = () => {
   const [uf, setUF] = useState([]);
   const [selectedUF, setSelectedUF] = useState("");
   const [city, setCity] = useState([]);
-  const [selectedCity, setSelectedCity] = useState("");
 
   const { id } = useParams();
 
@@ -114,7 +112,7 @@ const EditClient = () => {
       form.setFields([{ name: error.path, errors: [error.message] }]);
     }
   };
-  return loading || Object.keys(data).length == 0 ? (
+  return loading || Object.keys(data).length === 0 ? (
     <Spinner />
   ) : (
     <Col md={16}>

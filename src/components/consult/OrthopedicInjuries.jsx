@@ -12,7 +12,7 @@ export default function OrthopedicInjuries() {
 
   useEffect(() => {
     setOrtho(LESOES_ORTO_JSON);
-  }, [LESOES_ORTO_JSON]);
+  }, []);
 
   const list =
     ortho.length > 0 &&

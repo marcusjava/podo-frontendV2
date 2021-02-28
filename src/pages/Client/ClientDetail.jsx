@@ -1,16 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import {
-  Row,
-  Col,
-  Divider,
-  Table,
-  Card,
-  Avatar,
-  DatePicker,
-  Tag,
-  Popover,
-} from "antd";
+import { Row, Col, Divider, Table, Card, Avatar, Tag, Popover } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { getClient } from "../../redux/actions/clientActions";
 import { getConsults } from "../../redux/actions/consultActions";
@@ -28,8 +18,6 @@ const pageStyle = {
   boxShadow: "0 0 5px rgba(0, 0, 0, 0.1)",
 };
 
-const { RangePicker } = DatePicker;
-
 const statusColors = {
   Marcada: "processing",
   Realizada: "green",
@@ -44,9 +32,7 @@ const ClientDetail = () => {
 
   const { item, loading } = useSelector((state) => state.client.client);
 
-  const { items, loading: consultsLoading } = useSelector(
-    (state) => state.consult.consults
-  );
+  const { items } = useSelector((state) => state.consult.consults);
 
   useEffect(() => {
     dispatch(getClient(id));

@@ -1,10 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Form,
   Input,
   Select,
-  Spin,
   message,
   DatePicker,
   Transfer,
@@ -15,11 +14,7 @@ import {
   Checkbox,
   InputNumber,
 } from "antd";
-import {
-  saveConsult,
-  updateConsult,
-  getConsult,
-} from "../../redux/actions/consultActions";
+import { updateConsult } from "../../redux/actions/consultActions";
 import { getClients } from "../../redux/actions/clientActions";
 import { getProcedures } from "../../redux/actions/procedureActions";
 import { useSelector, useDispatch } from "react-redux";
@@ -48,6 +43,7 @@ const Anamnese = () => {
   const { id } = useParams();
 
   const [form] = Form.useForm();
+
   const dispatch = useDispatch();
 
   const { procedures } = useSelector((state) => state.procedure);
@@ -67,7 +63,6 @@ const Anamnese = () => {
     async function getConsult(id) {
       const response = await axios.get(`/consults/${id}`);
       const { data } = response;
-      console.log("dados do backend", data);
       setConsult(data);
       setSelectedKeys(data.procedures.map((item) => item._id));
       setPrice(parseInt(data.price));

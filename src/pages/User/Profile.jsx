@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Form,
@@ -9,7 +9,6 @@ import {
   Space,
   Col,
   Card,
-  message,
   DatePicker,
 } from "antd";
 import Spinner from "../../components/common/Spinner";
@@ -37,9 +36,7 @@ function Profile() {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
 
-  const { success, error, item, loading } = useSelector(
-    (state) => state.auth.user
-  );
+  const { item, loading } = useSelector((state) => state.auth.user);
 
   useEffect(() => {
     async function getUF() {
@@ -51,7 +48,7 @@ function Profile() {
     dispatch(getUser(id));
 
     getUF();
-  }, []);
+  }, [dispatch, id]);
 
   useEffect(() => {
     async function getCity() {
