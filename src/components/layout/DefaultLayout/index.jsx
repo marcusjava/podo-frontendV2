@@ -5,6 +5,7 @@ import SideBar from "./SideBar";
 import routes from "../../../routes";
 import Breadcrumbs from "../Breadcrumbs";
 import { useSelector } from "react-redux";
+import PrivateRoute from "../../PrivateRoute";
 
 const { Content, Footer } = Layout;
 
@@ -40,10 +41,6 @@ const DefaultLayout = () => {
                     ...rest,
                   }));
 
-                console.log("params", Object.keys(props.match.params));
-                console.log(`Generated crumbs for ${props.match.path}`);
-                crumbs.map(({ name, path }) => console.log({ name, path }));
-
                 return (
                   <Content style={{ margin: "10px 16px 0 16px" }}>
                     <Breadcrumbs crumbs={crumbs} />
@@ -51,11 +48,13 @@ const DefaultLayout = () => {
                       className="site-layout-background"
                       style={{ padding: 24, marginTop: 60 }}
                     >
-                      {authenticated === true ? (
-                        <Component {...props} />
-                      ) : (
-                        <Redirect to="/" />
-                      )}
+                      <PrivateRoute
+                        exact={exact}
+                        key={key}
+                        component={Component}
+                        path={path}
+                        name={name}
+                      />
                     </Row>
                   </Content>
                 );

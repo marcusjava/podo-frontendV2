@@ -16,7 +16,7 @@ import axios from "axios";
 import UploadFile from "../../components/upload";
 import InputMask from "react-input-mask";
 import { useHistory, useParams } from "react-router-dom";
-import moment from "moment";
+import dayjs from "dayjs";
 
 import Spinner from "../../components/layout/Spinner";
 
@@ -37,38 +37,39 @@ const EditClient = () => {
 
   const history = useHistory();
 
-  useEffect(() => {
-    async function getClient(id) {
-      setLoading(true);
-      const response = await axios.get(`/clients/${id}`);
-      const { data } = response;
-      setData(data);
-      setLoading(false);
-    }
-    getClient(id);
-  }, [id]);
+  const getClient = async (id) => {
+    setLoading(true);
+    const response = await axios.get(`/clients/${id}`);
+    const { data } = response;
+    setData(data);
+    setLoading(false);
+  };
+
+  const getUF = async () => {
+    const response = await axios.get(
+      "https://servicodados.ibge.gov.br/api/v1/localidades/estados"
+    );
+    setUF(response.data);
+  };
+  const getCity = async (value) => {
+    form.setFieldsValue({ address: { city: undefined } });
+    const response = await axios.get(
+      `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${value}/municipios`
+    );
+    setCity(response.data);
+  };
 
   useEffect(() => {
-    async function getUF() {
-      const response = await axios.get(
-        "https://servicodados.ibge.gov.br/api/v1/localidades/estados"
-      );
-      setUF(response.data);
-    }
-
     getUF();
   }, []);
 
   useEffect(() => {
-    async function getCity() {
-      if (selectedUF === "0") return;
-      const response = await axios.get(
-        `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedUF}/municipios`
-      );
-      setCity(response.data);
-    }
-    getCity();
-  }, [selectedUF]);
+    getClient(id);
+  }, [id]);
+
+  const onChangeUF = (value) => {
+    getCity(value);
+  };
 
   const handleSubmit = async (client) => {
     const {
@@ -92,7 +93,7 @@ const EditClient = () => {
     newClient.append("contact", contact);
     newClient.append("instagram", instagram);
     newClient.append("cpf", cpf);
-    newClient.append("nasc", moment(nasc).format("YYYY-MM-DD"));
+    newClient.append("nasc", dayjs(nasc).format("YYYY-MM-DD"));
     newClient.append("address", JSON.stringify(address));
     newClient.append("occupation", occupation);
     newClient.append("sex", sex);
@@ -126,7 +127,7 @@ const EditClient = () => {
             email: data.email,
             instagram: data.instagram,
             contact: data.contact,
-            nasc: moment(data.nasc),
+            nasc: dayjs(data.nasc),
             cpf: data.cpf,
 
             address: {
@@ -136,6 +137,7 @@ const EditClient = () => {
               city: data.address.city,
               cep: data.address.cep,
             },
+            occupation: data.occupation,
             sex: data.sex,
             etnia: data.etnia,
           }}
@@ -310,7 +312,7 @@ const EditClient = () => {
             >
               <Select
                 showSearch
-                onChange={(value) => setSelectedUF(value)}
+                onChange={(value) => onChangeUF(value)}
                 notFoundContent={uf.length === 0 ? <Spin size="small" /> : null}
               >
                 {uf.map((item) => (
@@ -338,7 +340,7 @@ const EditClient = () => {
               <Select
                 showSearch
                 placeholder="Selecione"
-                disabled={selectedUF === ""}
+                disabled={city.length === 0}
                 notFoundContent={
                   city.length === 0 ? <Spin size="small" /> : null
                 }

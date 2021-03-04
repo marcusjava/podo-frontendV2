@@ -4,7 +4,7 @@ import Spinner from "../layout/Spinner";
 import { useDispatch, useSelector } from "react-redux";
 import { getClients } from "../../redux/actions/clientActions";
 import { SearchOutlined } from "@ant-design/icons";
-import moment from "moment";
+import dayjs from "dayjs";
 import { MdEdit, MdDescription } from "react-icons/md";
 import { Link as RouterLink } from "react-router-dom";
 
@@ -165,7 +165,7 @@ const ClientTable = () => {
       title: "Criado em",
       dataIndex: "createdAt",
       key: "createdAt",
-      render: (text) => moment(text).format("DD/MM/YYYY HH:mm"),
+      render: (text) => dayjs(text).format("DD/MM/YYYY HH:mm"),
     },
     {
       title: "Criado por",

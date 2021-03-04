@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Badge, Card, Spin } from "antd";
 import axios from "axios";
-import moment from "moment";
+import dayjs from "dayjs";
 
 // import { Container } from './styles';
 
@@ -25,8 +25,8 @@ function StatsByMonth() {
   const [consultsLoading, setConsultsLoading] = useState(true);
 
   const query = {
-    start: moment().startOf("month").format("YYYY-MM-DD"),
-    end: moment().endOf("month").format("YYYY-MM-DD"),
+    start: dayjs().startOf("month").format("YYYY-MM-DD"),
+    end: dayjs().endOf("month").format("YYYY-MM-DD"),
   };
 
   useEffect(() => {

@@ -11,23 +11,23 @@ import {
   Avatar,
   Row,
   Col,
+  Space,
   Checkbox,
   InputNumber,
 } from "antd";
 import { updateConsult } from "../../redux/actions/consultActions";
-import { getClients } from "../../redux/actions/clientActions";
 import { getProcedures } from "../../redux/actions/procedureActions";
 import { useSelector, useDispatch } from "react-redux";
-import Spinner from "../../components/common/Spinner";
+import Spinner from "../../components/layout/Spinner";
 import { useParams, useHistory } from "react-router-dom";
 import axios from "axios";
-import moment from "moment";
 import Upload from "../../components/UploadDrop";
 import NailShape from "../../components/consult/NailShape";
 import NailLesions from "../../components/consult/NailLesions";
 import SkinLesions from "../../components/consult/SkinLesions";
 import OrthopedicInjuries from "../../components/consult/OrthopedicInjuries";
 import PhysicalExam from "../../components/consult/PhysicalExam";
+import dayjs from "dayjs";
 
 const { Option } = Select;
 
@@ -50,27 +50,21 @@ const Anamnese = () => {
 
   const { success, error } = useSelector((state) => state.consult.consult);
 
-  useEffect(() => {
-    dispatch(getProcedures());
-    dispatch(getClients());
+  async function getConsult() {
+    const response = await axios.get(`/consults/${id}`);
+    const { data } = response;
+    setConsult(data);
+    setSelectedKeys(data.procedures.map((item) => item._id));
+    setPrice(parseInt(data.price));
+  }
 
+  useEffect(() => {
+    getConsult();
+    dispatch(getProcedures());
     return function clean() {
       dispatch({ type: "CLEAR_CONSULT_STATE" });
     };
-  }, [dispatch]);
-
-  useEffect(() => {
-    async function getConsult(id) {
-      const response = await axios.get(`/consults/${id}`);
-      const { data } = response;
-      setConsult(data);
-      setSelectedKeys(data.procedures.map((item) => item._id));
-      setPrice(parseInt(data.price));
-    }
-    if (id) {
-      getConsult(id);
-    }
-  }, [id]);
+  }, []);
 
   useEffect(() => {
     if (success) {
@@ -91,36 +85,51 @@ const Anamnese = () => {
     setPrice(0);
     const keys = targetKeys;
     const { items } = procedures;
-    setSelectedKeys(keys);
+    let total = 0;
+
     keys.forEach((key) => {
       //pesquisar as procedures
       const procObj = items.find((item) => item._id === key);
+      total += parseInt(procObj.price);
       setPrice((total) => total + parseInt(procObj.price));
+      form.setFieldsValue({
+        price: total,
+      });
     });
+    setSelectedKeys(keys);
   };
 
   const handleSubmit = async (data) => {
-    console.log("dados do submit", data);
-    const { _id, date, client, anamnese, observations, type_consult } = data;
-    if (selectedKeys.length === 0) {
-      message.error("Selecione ao menos um procedimento");
-      return;
-    }
+    const {
+      _id,
+      date,
+      client,
+      procedures,
+      anamnese,
+      price,
+      observations,
+      type_consult,
+    } = data;
 
     const sendData = {
       _id,
-      date: moment(date).format("YYYY-MM-DD HH:mm"),
-      end_date: moment(Date.now()).format("YYYY-MM-DD HH:mm"),
+      date: dayjs(date).format("YYYY-MM-DD HH:mm"),
+      end_date: dayjs(Date.now()).format("YYYY-MM-DD HH:mm"),
       client,
-      procedures: selectedKeys,
-      price: price,
+      procedures,
+      price,
       anamnese,
       observations,
       status: "Realizada",
       type_consult,
     };
+    const confirm = window.confirm("Deseja realmente encerrar a consulta?");
 
-    dispatch(updateConsult(sendData, data._id));
+    if (confirm === true) {
+      dispatch(updateConsult(sendData, data._id));
+    } else {
+      return;
+    }
   };
 
   if (Object.entries(consult).length === 0) {
@@ -137,12 +146,15 @@ const Anamnese = () => {
       </Row>
       <Form
         name="consult"
+        layout="vertical"
         initialValues={{
           _id: consult._id,
-          date: moment(consult.date),
+          date: dayjs(consult.date),
           client: consult.client._id,
+          procedures: consult.procedures.map((p) => p._id),
           type_consult: consult.type_consult,
           anamnese: consult.anamnese,
+          price: consult.price,
           observations: consult.observations,
         }}
         form={form}
@@ -167,25 +179,34 @@ const Anamnese = () => {
         >
           <DatePicker format="DD/MM/YYYY HH:mm" showTime />
         </Form.Item>
-
-        <div style={{ marginBottom: 25 }}>
-          <h4>Procedimentos</h4>
+        <Form.Item
+          name="procedures"
+          label="Procedimentos"
+          rules={[
+            {
+              required: true,
+              message: "Informe ao menos um procedimento",
+            },
+          ]}
+        >
           <Transfer
             rowKey={(record) => record._id}
+            targetKeys={selectedKeys}
             listStyle={{
               width: 350,
               height: 450,
             }}
             dataSource={procedures.items}
-            targetKeys={selectedKeys}
             showSearch
             filterOption={filterOption}
             render={(item) => `${item.name} - R$ ${item.price}`}
             onChange={handleChange}
           />
-        </div>
+        </Form.Item>
 
-        <h1>Total {price}</h1>
+        <Form.Item name="price" label="Total">
+          <InputNumber size="large" />
+        </Form.Item>
 
         <Form.Item
           name="type_consult"
@@ -440,16 +461,22 @@ const Anamnese = () => {
 
         <PhysicalExam />
 
-        <Button type="primary" htmlType="submit">
-          Salvar
-        </Button>
-        <Button
-          type="danger"
-          htmlType="button"
-          onClick={() => form.resetFields()}
-        >
-          Limpar
-        </Button>
+        <Row justify="end">
+          <Col>
+            <Space>
+              <Button type="primary" htmlType="submit">
+                Salvar
+              </Button>
+              <Button
+                type="danger"
+                htmlType="button"
+                onClick={() => history.goBack()}
+              >
+                Cancelar
+              </Button>
+            </Space>
+          </Col>
+        </Row>
       </Form>
     </Card>
   );
