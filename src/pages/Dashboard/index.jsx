@@ -12,7 +12,7 @@ function Dashboard() {
   return (
     <Col md={24}>
       <Row justify="end" gutter={[0, 32]}>
-        <Col span={4} justify="end">
+        <Col span={8} justify="end">
           <SearchClient />
         </Col>
       </Row>

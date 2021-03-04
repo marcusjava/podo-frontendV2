@@ -1,5 +1,15 @@
 import React, { useState } from "react";
-import { Modal, Button, Tooltip, Form, Input, message } from "antd";
+import {
+  Modal,
+  Button,
+  Tooltip,
+  Form,
+  Input,
+  message,
+  Row,
+  Col,
+  Space,
+} from "antd";
 import { KeyOutlined } from "@ant-design/icons";
 import axios from "axios";
 import * as Yup from "yup";
@@ -113,12 +123,18 @@ function ChangePwdModal() {
               />
             </Form.Item>
           </Form.Item>
-          <Button type="primary" htmlType="submit">
-            Atualizar
-          </Button>
-          <Button type="danger" htmlType="button" onClick={onCancel}>
-            Limpar
-          </Button>
+          <Row justify="end">
+            <Col>
+              <Space>
+                <Button type="primary" htmlType="submit">
+                  Atualizar
+                </Button>
+                <Button type="danger" htmlType="button" onClick={onCancel}>
+                  Limpar
+                </Button>
+              </Space>
+            </Col>
+          </Row>
         </Form>
       </Modal>
     </>

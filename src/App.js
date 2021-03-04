@@ -1,6 +1,11 @@
 import React from "react";
 import "./App.css";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  HashRouter,
+} from "react-router-dom";
 import Login from "./pages/Login";
 import { setCurrentUser, logout } from "./redux/actions/userActions";
 import axios from "axios";
@@ -25,7 +30,7 @@ if (localStorage.getItem("token")) {
 }
 
 axios.defaults.baseURL =
-  process.env.NODE_ENV !== "development"
+  process.env.NODE_ENV === "development"
     ? process.env.REACT_APP_DEV_API_URL
     : process.env.REACT_APP_API_URL;
 
@@ -72,7 +77,7 @@ axios.interceptors.response.use(
 function App() {
   return (
     <Provider store={store}>
-      <Router>
+      <HashRouter>
         <div className="App">
           <Switch>
             <Route exact path="/" component={Login} />
@@ -80,7 +85,7 @@ function App() {
             <Route path="/ficha/:id" component={PagePrint} />
           </Switch>
         </div>
-      </Router>
+      </HashRouter>
     </Provider>
   );
 }

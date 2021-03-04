@@ -112,7 +112,7 @@ const ProcedureTable = () => {
     {
       key: "name",
       title: "Nome",
-      width: 150,
+      width: 350,
       dataIndex: "name",
 
       render: (name) => {
@@ -123,7 +123,7 @@ const ProcedureTable = () => {
     {
       key: "price",
       title: "Valor",
-      width: 20,
+      width: 150,
       dataIndex: "price",
 
       render: (price) => {
@@ -132,14 +132,14 @@ const ProcedureTable = () => {
     },
     {
       key: "description",
-      width: 250,
+      width: 400,
       title: "Descrição",
       dataIndex: "description",
     },
 
     {
       title: "Açoes",
-      width: 5,
+      width: 15,
       align: "center",
       render: (record) => <Modal editMode={true} data={record} />,
     },

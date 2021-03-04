@@ -69,7 +69,7 @@ const CadConsult = Loadable({
 });
 
 const EditConsult = Loadable({
-  loader: () => import("./pages/Consult/CadConsult"),
+  loader: () => import("./pages/Consult/EditConsult"),
   loading: Loading,
 });
 

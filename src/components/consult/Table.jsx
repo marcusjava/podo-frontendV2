@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 import { SearchOutlined } from "@ant-design/icons";
 import { MdEdit } from "react-icons/md";
 import { FcCancel, FcBriefcase, FcPrint } from "react-icons/fc";
-import moment from "moment";
+import dayjs from "dayjs";
 
 const { RangePicker } = DatePicker;
 
@@ -176,10 +176,10 @@ const ConsultTable = () => {
       dataIndex: "date",
       render: (date) => (
         <strong>
-          <h3>{moment(date).format("DD/MM/YYYY HH:mm")}</h3>
+          <h3>{dayjs(date).format("DD/MM/YYYY HH:mm")}</h3>
         </strong>
       ),
-      sorter: (a, b) => moment(a.date).unix() - moment(b.date).unix(),
+      sorter: (a, b) => dayjs(a.date).unix() - dayjs(b.date).unix(),
       filterDropdown: () => (
         <div style={{ padding: 8, display: "flex", flexDirection: "column" }}>
           <RangePicker
@@ -326,7 +326,9 @@ const ConsultTable = () => {
           <div>
             <Tooltip title="Cancelar Consulta">
               <Button
-                disabled={record.status === "Cancelada"}
+                disabled={
+                  record.status === "Cancelada" || record.status === "Realizada"
+                }
                 style={{
                   border: "none",
                   fontSize: 18,
@@ -342,6 +344,10 @@ const ConsultTable = () => {
             <Tooltip title="Editar Consulta">
               <Link to={`/home/consulta/${record.key}/editar`}>
                 <Button
+                  disabled={
+                    record.status === "Cancelada" ||
+                    record.status === "Realizada"
+                  }
                   style={{
                     border: "none",
                     fontSize: 25,

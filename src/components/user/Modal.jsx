@@ -21,7 +21,7 @@ import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import UploadFile from "../upload";
 import * as Yup from "yup";
-import moment from "moment";
+import dayjs from "dayjs";
 import MaskedInput from "antd-mask-input";
 const { Option } = Select;
 
@@ -43,7 +43,6 @@ const UserModal = ({ editMode = false, data }) => {
 
   const [selectedFile, setSelectedFile] = useState(null);
   const [uf, setUF] = useState([]);
-  const [selectedUF, setSelectedUF] = useState("");
   const [city, setCity] = useState([]);
 
   const [form] = Form.useForm();
@@ -51,27 +50,23 @@ const UserModal = ({ editMode = false, data }) => {
 
   const { success, error, item } = useSelector((state) => state.auth.user);
 
-  useEffect(() => {
-    async function getUF() {
-      const response = await axios.get(
-        "https://servicodados.ibge.gov.br/api/v1/localidades/estados"
-      );
-      setUF(response.data);
-    }
+  const getUF = async () => {
+    const response = await axios.get(
+      "https://servicodados.ibge.gov.br/api/v1/localidades/estados"
+    );
+    setUF(response.data);
+  };
+  const getCity = async (value) => {
+    form.setFieldsValue({ address: { city: undefined } });
+    const response = await axios.get(
+      `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${value}/municipios`
+    );
+    setCity(response.data);
+  };
 
+  useEffect(() => {
     getUF();
   }, []);
-
-  useEffect(() => {
-    async function getCity() {
-      if (selectedUF === "") return;
-      const response = await axios.get(
-        `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedUF}/municipios`
-      );
-      setCity(response.data);
-    }
-    getCity();
-  }, [selectedUF]);
 
   useEffect(() => {
     if (editMode && visible) {
@@ -79,7 +74,7 @@ const UserModal = ({ editMode = false, data }) => {
         id: data.key,
         name: data.name,
         phone: data.phone,
-        nasc: moment(data.nasc),
+        nasc: dayjs(data.nasc),
         cpf: data.cpf,
         rg: data.rg,
         email: data.email,
@@ -130,7 +125,7 @@ const UserModal = ({ editMode = false, data }) => {
       newUser.append("thumbnail", selectedFile);
       newUser.append("name", data.name);
       newUser.append("phone", data.phone);
-      newUser.append("nasc", moment(data.nasc).format("YYYY-MM-DD"));
+      newUser.append("nasc", dayjs(data.nasc).format("YYYY-MM-DD"));
       newUser.append("cpf", data.cpf);
       newUser.append("rg", data.rg || "");
       newUser.append("email", data.email);
@@ -171,6 +166,10 @@ const UserModal = ({ editMode = false, data }) => {
   const onCancel = (e) => {
     form.resetFields();
     setSelectedFile(null);
+  };
+
+  const onChangeUF = (value) => {
+    getCity(value);
   };
 
   const buttonType = editMode ? (
@@ -263,7 +262,7 @@ const UserModal = ({ editMode = false, data }) => {
                 marginRight: "15px",
               }}
             >
-              <MaskedInput placeholder="Somente numeros" mask="11111111" />
+              <MaskedInput mask="11111111" />
             </Form.Item>
             <Form.Item
               name="cpf"
@@ -275,7 +274,7 @@ const UserModal = ({ editMode = false, data }) => {
                 marginRight: "15px",
               }}
             >
-              <MaskedInput placeholder="Somente numeros" mask="11111111111" />
+              <MaskedInput mask="11111111111" />
             </Form.Item>
             <Form.Item
               name="nasc"
@@ -308,11 +307,7 @@ const UserModal = ({ editMode = false, data }) => {
                 },
               ]}
             >
-              <MaskedInput
-                placeholder="Somente numeros"
-                mask="(11)11111-1111"
-                style={{ width: 150 }}
-              />
+              <MaskedInput mask="(11)11111-1111" style={{ width: 150 }} />
             </Form.Item>
           </Form.Item>
           <Form.Item>
@@ -348,7 +343,7 @@ const UserModal = ({ editMode = false, data }) => {
             >
               <Select
                 showSearch
-                onChange={(value) => setSelectedUF(value)}
+                onChange={(value) => onChangeUF(value)}
                 notFoundContent={uf.length === 0 ? <Spin size="small" /> : null}
                 style={{ width: 70 }}
               >
@@ -371,7 +366,7 @@ const UserModal = ({ editMode = false, data }) => {
               <Select
                 showSearch
                 placeholder="Selecione"
-                disabled={selectedUF === ""}
+                disabled={city.length === 0}
                 notFoundContent={
                   city.length === 0 ? <Spin size="small" /> : null
                 }
@@ -388,11 +383,7 @@ const UserModal = ({ editMode = false, data }) => {
               label="CEP"
               style={{ display: "inline-block", width: "calc(25% - 8px)" }}
             >
-              <MaskedInput
-                placeholder="Somente numeros"
-                mask="11111111"
-                style={{ width: 150 }}
-              />
+              <MaskedInput mask="11111111" style={{ width: 150 }} />
             </Form.Item>
           </Form.Item>
           {!editMode ? (

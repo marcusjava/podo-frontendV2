@@ -6,14 +6,14 @@ import Modal from "../../components/procedure/Modal";
 
 function Procedure() {
   return (
-    <div className="users">
+    <div>
       <Row>
         <Col>
           <Modal />
         </Col>
       </Row>
       <Row style={{ marginTop: "30px" }}>
-        <Col>
+        <Col span={24}>
           <Table />
         </Col>
       </Row>

@@ -4,7 +4,7 @@ import { Row, Col, Divider, Table, Card, Avatar, Tag, Popover } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { getClient } from "../../redux/actions/clientActions";
 import { getConsults } from "../../redux/actions/consultActions";
-import moment from "moment";
+import dayjs from "dayjs";
 import Spinner from "../../components/layout/Spinner";
 import { SearchOutlined } from "@ant-design/icons";
 
@@ -46,10 +46,10 @@ const ClientDetail = () => {
       dataIndex: "date",
       render: (date) => (
         <strong>
-          <h3>{moment(date).format("DD/MM/YYYY HH:mm")}</h3>
+          <h3>{dayjs(date).format("DD/MM/YYYY HH:mm")}</h3>
         </strong>
       ),
-      sorter: (a, b) => moment(a.date).unix() - moment(b.date).unix(),
+      sorter: (a, b) => dayjs(a.date).unix() - dayjs(b.date).unix(),
       filterIcon: (filtered) => (
         <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
       ),
@@ -168,7 +168,7 @@ const ClientDetail = () => {
               <Col span={6}>
                 <p>
                   <strong>Nasc.</strong> -{" "}
-                  {moment(item.nasc).format("DD/MM/YYYY")}
+                  {dayjs(item.nasc).format("DD/MM/YYYY")}
                 </p>
               </Col>
               <Col span={6}>

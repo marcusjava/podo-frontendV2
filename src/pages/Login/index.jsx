@@ -18,7 +18,7 @@ const Login = () => {
     if (authenticated) {
       history.push("/home");
     }
-  }, [authenticated, history]);
+  }, [authenticated]);
 
   useEffect(() => {
     if (error) {

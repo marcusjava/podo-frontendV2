@@ -17,8 +17,8 @@ import { useSelector, useDispatch } from "react-redux";
 import UploadFile from "../../components/upload";
 import InputMask from "react-input-mask";
 import { saveClient } from "../../redux/actions/clientActions";
-import { useHistory, useParams } from "react-router-dom";
-import moment from "moment";
+import { useHistory } from "react-router-dom";
+import dayjs from "dayjs";
 import * as Yup from "yup";
 const { Option } = Select;
 
@@ -34,7 +34,6 @@ const { Option } = Select;
 const CadClient = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [uf, setUF] = useState([]);
-  const [selectedUF, setSelectedUF] = useState("");
   const [city, setCity] = useState([]);
 
   const [form] = Form.useForm();
@@ -45,32 +44,26 @@ const CadClient = () => {
 
   const { success, error } = useSelector((state) => state.client.client);
 
+  const getUF = async () => {
+    const response = await axios.get(
+      "https://servicodados.ibge.gov.br/api/v1/localidades/estados"
+    );
+    setUF(response.data);
+  };
+  const getCity = async (value) => {
+    form.setFieldsValue({ address: { city: undefined } });
+    const response = await axios.get(
+      `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${value}/municipios`
+    );
+    setCity(response.data);
+  };
+
   useEffect(() => {
-    async function getUF() {
-      const response = await axios.get(
-        "https://servicodados.ibge.gov.br/api/v1/localidades/estados"
-      );
-      setUF(response.data);
-    }
-
     getUF();
-
     return () => {
       dispatch({ type: "CLEAR_CLIENT_STATE" });
     };
   }, []);
-
-  useEffect(() => {
-    form.setFieldsValue({ address: { city: undefined } });
-    async function getCity() {
-      if (selectedUF === "") return;
-      const response = await axios.get(
-        `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${selectedUF}/municipios`
-      );
-      setCity(response.data);
-    }
-    getCity();
-  }, [selectedUF]);
 
   useEffect(() => {
     if (success) {
@@ -84,6 +77,10 @@ const CadClient = () => {
       form.setFields([{ name: error.path, errors: [error.message] }]);
     }
   }, [error, success]);
+
+  const onChangeUF = (value) => {
+    getCity(value);
+  };
 
   const handleSubmit = async (client) => {
     try {
@@ -106,7 +103,7 @@ const CadClient = () => {
       newClient.append("contact", client.contact);
       newClient.append("instagram", client.instagram || "");
       newClient.append("cpf", client.cpf);
-      newClient.append("nasc", moment(client.nasc).format("YYYY-MM-DD"));
+      newClient.append("nasc", dayjs(client.nasc).format("YYYY-MM-DD"));
       newClient.append("address", JSON.stringify(client.address));
       newClient.append("occupation", client.occupation || "");
       newClient.append("sex", client.sex || "");
@@ -290,7 +287,7 @@ const CadClient = () => {
             >
               <Select
                 showSearch
-                onChange={(value) => setSelectedUF(value)}
+                onChange={(value) => onChangeUF(value)}
                 notFoundContent={uf.length === 0 ? <Spin size="small" /> : null}
               >
                 {uf.map((item) => (
@@ -318,7 +315,7 @@ const CadClient = () => {
               <Select
                 showSearch
                 placeholder="Selecione"
-                disabled={selectedUF === ""}
+                disabled={city.length === 0}
                 notFoundContent={
                   city.length === 0 ? <Spin size="small" /> : null
                 }

@@ -15,11 +15,12 @@ import {
   Col,
   Row,
 } from "antd";
-import { saveConsult } from "../../redux/actions/consultActions";
+import { updateConsult } from "../../redux/actions/consultActions";
 import { getClients } from "../../redux/actions/clientActions";
 import { getProcedures } from "../../redux/actions/procedureActions";
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
+import axios from "axios";
 import dayjs from "dayjs";
 import Spinner from "../../components/layout/Spinner";
 
@@ -27,27 +28,45 @@ const { Option } = Select;
 
 const { TextArea } = Input;
 
-const CadConsult = () => {
+const EditConsult = () => {
+  const [item, setItem] = useState({});
+  const [loading, setLoading] = useState(false);
   const [selectedKeys, setSelectedKeys] = useState([]);
   const [price, setPrice] = useState(0);
+  const [anamnese, setAnamnese] = useState({});
 
   const history = useHistory();
 
-  const [form] = Form.useForm();
+  const { id } = useParams();
 
+  const [form] = Form.useForm();
   const dispatch = useDispatch();
 
   const { procedures } = useSelector((state) => state.procedure);
 
   const { clients } = useSelector((state) => state.client);
 
-  const { success, error, loading } = useSelector(
-    (state) => state.consult.consult
-  );
+  const { success, error } = useSelector((state) => state.consult.consult);
+
+  const getConsult = async (id) => {
+    try {
+      setLoading(true);
+      const response = await axios.get(`/consults/${id}`);
+      const { data } = response;
+      setItem(data);
+      setSelectedKeys(data.procedures.map((p) => p._id));
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      message.error("Ocorreu um erro ao recuperar a consulta");
+      history.goBack();
+    }
+  };
 
   useEffect(() => {
     dispatch(getProcedures());
     dispatch(getClients({ limit: 50 }));
+    getConsult(id);
 
     return function clean() {
       dispatch({ type: "CLEAR_CONSULT_STATE" });
@@ -57,7 +76,6 @@ const CadConsult = () => {
   useEffect(() => {
     if (success) {
       message.success("Consulta salva com sucesso");
-      form.resetFields();
       history.goBack();
     }
 
@@ -68,6 +86,41 @@ const CadConsult = () => {
 
   const filterOption = (inputValue, option) =>
     option.name.toLowerCase().indexOf(inputValue.toLowerCase()) > -1;
+
+  const handleSubmit = async (data) => {
+    const {
+      _id,
+      date,
+      client,
+      observations,
+      procedures,
+      price,
+      status,
+      type_consult,
+    } = data;
+
+    const sendData = {
+      _id,
+      date: dayjs(date).format("YYYY-MM-DD HH:mm"),
+      client,
+      procedures,
+      anamnese,
+      price,
+      observations,
+      status,
+      type_consult,
+    };
+    dispatch(updateConsult(sendData, data._id));
+  };
+
+  const handleSearch = (value) => {
+    if (value === "") {
+      dispatch(getClients({ limit: 50 }));
+    }
+    if (value.length > 3) {
+      dispatch(getClients({ name: value }));
+    }
+  };
 
   const handleChange = (targetKeys) => {
     setPrice(0);
@@ -91,52 +144,33 @@ const CadConsult = () => {
     setSelectedKeys(targetKeys);
   };
 
-  const handleSubmit = async (data) => {
-    const {
-      date,
-      client,
-      observations,
-      procedures,
-      price,
-      status,
-      type_consult,
-    } = data;
-
-    const sendData = {
-      date: dayjs(date).format("YYYY-MM-DD HH:mm"),
-      client,
-      procedures,
-      price,
-      observations,
-      status,
-      type_consult,
-    };
-    dispatch(saveConsult(sendData));
-  };
-
-  const handleSearch = (value) => {
-    if (value === "") {
-      dispatch(getClients({ limit: 50 }));
-    }
-    if (value.length > 3) {
-      dispatch(getClients({ name: value }));
-    }
-  };
-
-  if (loading) {
+  if (loading || Object.keys(item).length === 0) {
     return <Spinner />;
   }
 
   return (
     <Col md={12}>
-      <Card title="Cadastrar Consulta" bordered={false}>
+      <Card title="Editar Consulta" bordered={false}>
         <Form
-          name="new-consult"
+          name="edit-consult"
           form={form}
           layout="vertical"
           onFinish={handleSubmit}
-          initialValues={{ status: "Marcada" }}
+          initialValues={{
+            _id: item._id,
+            date: dayjs(item.date),
+            client: item.client._id,
+            procedures: item.procedures.map((p) => p._id),
+            anamnese: item.anamnese,
+            price: item.price,
+            type_consult: item.type_consult,
+            status: item.status,
+            observations: item.observations,
+          }}
         >
+          <Form.Item name="_id">
+            <Input type="hidden" />
+          </Form.Item>
           <Form.Item
             rules={[
               {
@@ -269,7 +303,7 @@ const CadConsult = () => {
             <Col>
               <Space>
                 <Button type="primary" htmlType="submit">
-                  Salvar
+                  Atualizar
                 </Button>
                 <Button
                   type="danger"
@@ -287,4 +321,4 @@ const CadConsult = () => {
   );
 };
 
-export default CadConsult;
+export default EditConsult;

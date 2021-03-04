@@ -18,7 +18,7 @@ import axios from "axios";
 import UploadFile from "../../components/upload";
 import ChangePwdModal from "../../components/user/ChangePwdModal";
 import * as Yup from "yup";
-import moment from "moment";
+import dayjs from "dayjs";
 import MaskedInput from "antd-mask-input";
 import { useParams } from "react-router-dom";
 const { Option } = Select;
@@ -88,7 +88,7 @@ function Profile() {
       profile.append("thumbnail", selectedFile);
       profile.append("name", data.name);
       profile.append("phone", data.phone);
-      profile.append("nasc", moment(data.nasc).format("YYYY-MM-DD"));
+      profile.append("nasc", dayjs(data.nasc).format("YYYY-MM-DD"));
       profile.append("cpf", data.cpf);
       profile.append("rg", data.rg || "");
       profile.append("email", data.email);
@@ -127,7 +127,7 @@ function Profile() {
             _id: item._id,
             name: item.name,
             phone: item.phone,
-            nasc: moment(item.nasc),
+            nasc: dayjs(item.nasc),
             cpf: item.cpf,
             rg: item.rg,
             email: item.email,

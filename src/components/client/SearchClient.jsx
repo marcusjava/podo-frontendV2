@@ -17,17 +17,23 @@ export default function SearchClient() {
 
   useEffect(() => {
     //renderizando clientes
-    dispatch(getClients());
+    dispatch(getClients({ limit: 50 }));
   }, [dispatch]);
 
   const handleSearch = (value) => {
-    console.log(value);
+    if (value === "") {
+      dispatch(getClients({ limit: 50 }));
+    }
+    if (value.length > 3) {
+      dispatch(getClients({ name: value }));
+    }
   };
 
   return (
     <div>
       <Select
         showSearch
+        allowClear
         notFoundContent={
           clients.items.length === 0 ? <Spin size="small" /> : null
         }
@@ -44,6 +50,7 @@ export default function SearchClient() {
           );
         }}
         onSearch={handleSearch}
+        onClear={() => dispatch(getClients({ limit: 50 }))}
         onChange={(value, option) => history.push(`/home/cliente/${value}`)}
       >
         {clients.items.map((item) => (
