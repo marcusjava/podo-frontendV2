@@ -14,6 +14,7 @@ import {
   CrownOutlined,
   MedicineBoxOutlined,
   UsergroupAddOutlined,
+  BarChartOutlined,
 } from "@ant-design/icons";
 import "./styles.css";
 
@@ -50,7 +51,16 @@ const SideBar = () => {
           <Link to="/home/clientes">Clientes</Link>
         </Menu.Item>
 
-        <SubMenu key="sub2" icon={<CrownOutlined />} title="Administrador">
+        <SubMenu key="sub2" icon={<BarChartOutlined />} title="Graficos">
+          <Menu.Item key="11" icon={<MedicineBoxOutlined />}>
+            <Link to="/home/grafico/consultas">Consultas</Link>
+          </Menu.Item>
+          <Menu.Item key="5" icon={<UsergroupAddOutlined />}>
+            <Link to="/home/grafico/clientes">Clientes</Link>
+          </Menu.Item>
+        </SubMenu>
+
+        <SubMenu key="sub3" icon={<CrownOutlined />} title="Administrador">
           <Menu.Item key="4" icon={<TeamOutlined />}>
             <Link to="/home/usuario">Usuarios</Link>
           </Menu.Item>
@@ -61,7 +71,7 @@ const SideBar = () => {
             <Link to="/home/procedimento">Procedimentos</Link>
           </Menu.Item>
         </SubMenu>
-        <SubMenu key="sub1" icon={<Avatar src={avatar_url} />}>
+        <SubMenu key="sub4" icon={<Avatar src={avatar_url} />}>
           <Menu.Item key="7">{name}</Menu.Item>
           <Menu.Item key="8" icon={<UserOutlined />}>
             <Link to={`/home/usuario/${id}`}>Perfil</Link>

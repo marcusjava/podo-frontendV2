@@ -10,6 +10,9 @@ import {
   FcSupport,
   FcSurvey,
 } from "react-icons/fc";
+import { BarChartOutlined } from "@ant-design/icons";
+
+import { IoBarChartSharp } from "react-icons/io";
 
 const Loading = () => <Spinner />;
 
@@ -88,6 +91,16 @@ const NotFound = Loadable({
   loading: Loading,
 });
 
+const ChartsConsult = Loadable({
+  loader: () => import("./pages/Consult/Charts"),
+  loading: Loading,
+});
+
+const ChartsClient = Loadable({
+  loader: () => import("./pages/Client/Charts"),
+  loading: Loading,
+});
+
 const routes = [
   {
     path: "/home",
@@ -114,6 +127,24 @@ const routes = [
     icon: <FcSupport size={22} />,
     name: "Serviços",
     Component: Service,
+  },
+  {
+    path: "/home/grafico/consultas",
+    icon: <BarChartOutlined style={{ fontSize: 22 }} />,
+    name: "Grafico Consultas",
+    Component: ChartsConsult,
+  },
+  {
+    path: "/home/grafico/consultas",
+    icon: <BarChartOutlined style={{ fontSize: 22 }} />,
+    name: "Grafico Consultas",
+    Component: ChartsConsult,
+  },
+  {
+    path: "/home/grafico/clientes",
+    icon: <BarChartOutlined style={{ fontSize: 22 }} />,
+    name: "Grafico Clientes",
+    Component: ChartsClient,
   },
   {
     path: "/home/procedimento",

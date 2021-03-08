@@ -76,3 +76,17 @@ export const searchConsults = (input) => (dispatch) => {
       dispatch({ type: FETCH_CONSULTS_ERROR, payload: error.response.data });
     });
 };
+
+export const getStats = () => (dispatch) => {
+  dispatch({ type: FETCH_CONSULTS_REQUEST });
+  return axios
+    .get(`/consults/stats`)
+    .then((response) => {
+      console.log(response);
+      //dispatch({ type: FETCH_CONSULTS_SUCCESS, payload: response.data });
+    })
+    .catch((error) => {
+      console.log(error);
+      //dispatch({ type: FETCH_CONSULTS_ERROR, payload: error.response.data });
+    });
+};

@@ -21,8 +21,10 @@ const gridStyle = {
 function StatsByMonth() {
   const [clients, setClients] = useState([]);
   const [consults, setConsults] = useState([]);
+  const [stats, setStats] = useState([]);
   const [clientsLoading, setClientsLoading] = useState(true);
   const [consultsLoading, setConsultsLoading] = useState(true);
+  const [statsLoading, setStatsLoading] = useState(true);
 
   const query = {
     start: dayjs().startOf("month").format("YYYY-MM-DD"),
@@ -36,6 +38,10 @@ function StatsByMonth() {
       setClientsLoading(false);
     }
 
+    async function getStats() {
+      const statsData = await axios.get("/consults/stats/consults");
+    }
+
     async function getConsults() {
       const consultsData = await axios.get("/consults", { params: query });
       setConsults(consultsData.data);
@@ -44,6 +50,7 @@ function StatsByMonth() {
 
     getClients();
     getConsults();
+    getStats();
   }, []);
   return (
     <Card>
