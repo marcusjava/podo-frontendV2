@@ -4,7 +4,7 @@ import Spinner from "../layout/Spinner";
 import { useDispatch, useSelector } from "react-redux";
 import { getProcedures } from "../../redux/actions/procedureActions";
 import { SearchOutlined } from "@ant-design/icons";
-import Modal from "./Modal";
+import EditModal from "./EditModal";
 
 const ProcedureTable = () => {
   const [data, setData] = useState([]);
@@ -102,7 +102,7 @@ const ProcedureTable = () => {
   const columns = [
     {
       key: "service",
-      width: 20,
+
       title: "Serviço",
       dataIndex: "service",
       render: (service) => {
@@ -112,7 +112,7 @@ const ProcedureTable = () => {
     {
       key: "name",
       title: "Nome",
-      width: 350,
+
       dataIndex: "name",
 
       render: (name) => {
@@ -123,7 +123,7 @@ const ProcedureTable = () => {
     {
       key: "price",
       title: "Valor",
-      width: 150,
+
       dataIndex: "price",
 
       render: (price) => {
@@ -132,16 +132,16 @@ const ProcedureTable = () => {
     },
     {
       key: "description",
-      width: 400,
+      width: 300,
       title: "Descrição",
       dataIndex: "description",
     },
 
     {
       title: "Açoes",
-      width: 15,
+
       align: "center",
-      render: (record) => <Modal editMode={true} data={record} />,
+      render: (record) => <EditModal data={record} />,
     },
   ];
 

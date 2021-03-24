@@ -1,5 +1,5 @@
 import React from "react";
-import { Layout, Row } from "antd";
+import { Layout, Row, Col } from "antd";
 import { Switch, Redirect, Route } from "react-router-dom";
 import SideBar from "./SideBar";
 import routes from "../../../routes";
@@ -44,9 +44,10 @@ const DefaultLayout = () => {
                 return (
                   <Content style={{ margin: "10px 16px 0 16px" }}>
                     <Breadcrumbs crumbs={crumbs} />
-                    <Row
+                    <Col
                       className="site-layout-background"
                       style={{ padding: 24, marginTop: 60 }}
+                      span={24}
                     >
                       <PrivateRoute
                         exact={exact}
@@ -55,7 +56,7 @@ const DefaultLayout = () => {
                         path={path}
                         name={name}
                       />
-                    </Row>
+                    </Col>
                   </Content>
                 );
               }}
