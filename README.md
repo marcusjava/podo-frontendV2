@@ -1,3 +1,24 @@
+<h1 align="center">Clinica Nana Podologia ⚕️ </h1>
+
+<p>
+  <img alt="Login" src="https://podobucketv2.s3-sa-east-1.amazonaws.com/tela_login.png" />
+  
+</p>
+<p>
+  <img alt="Login" src="https://podobucketv2.s3-sa-east-1.amazonaws.com/dashboard.png" />
+  
+</p>
+<p>
+  <img alt="Version" src="https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000" />
+  <a href="#" target="_blank">
+    <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
+  </a>
+</p>
+
+> Controle de Atendimentos Clinica Podologia
+
+### 🏠 [Homepage](https://nanapodologia.herokuapp.com)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

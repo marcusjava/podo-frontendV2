@@ -1,19 +1,18 @@
 import React from "react";
 import { Row, Col } from "antd";
 import Table from "../../components/procedure/Table";
-import Modal from "../../components/procedure/Modal";
-// import { Container } from './styles';
+import CadModal from "../../components/procedure/CadModal";
 
 function Procedure() {
   return (
     <div>
       <Row>
         <Col>
-          <Modal />
+          <CadModal />
         </Col>
       </Row>
       <Row style={{ marginTop: "30px" }}>
-        <Col span={24}>
+        <Col lg={20} md={20}>
           <Table />
         </Col>
       </Row>

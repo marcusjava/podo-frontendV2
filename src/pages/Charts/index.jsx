@@ -5,7 +5,6 @@ import dayjs from "dayjs";
 import axios from "axios";
 import { SearchOutlined } from "@ant-design/icons";
 
-// import { Container } from './styles';
 const { RangePicker } = DatePicker;
 const { Option } = Select;
 
@@ -17,8 +16,6 @@ function Charts() {
   let searchInput = null;
 
   const onSearch = async () => {
-    console.log("dates", selectedDate, "status", status);
-
     const params = {
       startDate: dayjs(selectedDate[0]).format("YYYY-MM-DD"),
       endDate: dayjs(selectedDate[1]).format("YYYY-MM-DD"),

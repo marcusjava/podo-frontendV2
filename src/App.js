@@ -57,10 +57,9 @@ axios.interceptors.response.use(
     return response;
   },
   (error) => {
-    console.log(error.response.data);
     const { path, message } = error.response.data;
     const { status } = error.response;
-    if (status === 401) {
+    if (status === 401 || message === "401 unauthorized") {
       m.error("Sessão expirada faça login novamente");
       store.dispatch(logout());
       window.location.href = "/";

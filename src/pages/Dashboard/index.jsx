@@ -11,12 +11,12 @@ import SearchClient from "../../components/client/SearchClient";
 function Dashboard() {
   return (
     <Col md={24}>
-      <Row justify="end" gutter={[0, 32]}>
+      <Row justify="end" gutter={[0, 32]} style={{ marginBottom: "30px" }}>
         <Col span={8} justify="end">
           <SearchClient />
         </Col>
       </Row>
-      <Row justify="space-between">
+      <Row justify="space-between" align="middle">
         <Col flex={2}>
           <Space>
             <Link to="/home/consultas/adicionar">

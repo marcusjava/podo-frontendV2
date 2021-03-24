@@ -44,18 +44,6 @@ const ProcedureModal = ({ editMode = false, data }) => {
   }, []);
 
   useEffect(() => {
-    if (editMode && visible) {
-      form.setFieldsValue({
-        _id: data.key,
-        service: data.service._id,
-        name: data.name,
-        price: data.price,
-        description: data.description,
-      });
-    }
-  }, [editMode, visible, data]);
-
-  useEffect(() => {
     if (success && visible) {
       message.success("Procedimento salvo com sucesso");
       setVisible(false);
@@ -102,15 +90,7 @@ const ProcedureModal = ({ editMode = false, data }) => {
     setVisible(false);
   };
 
-  const buttonType = editMode ? (
-    <Tooltip title="Editar">
-      <MdEdit
-        size={18}
-        onClick={() => setVisible(true)}
-        style={{ cursor: "pointer" }}
-      />
-    </Tooltip>
-  ) : (
+  const buttonType = (
     <Button
       type="primary"
       icon={<FcManager size={18} />}
@@ -181,7 +161,6 @@ const ProcedureModal = ({ editMode = false, data }) => {
           >
             <Input style={{ width: 500 }} />
           </Form.Item>
-
           <Form.Item
             name="price"
             label="Preço"
@@ -202,7 +181,7 @@ const ProcedureModal = ({ editMode = false, data }) => {
             <Col>
               <Space>
                 <Button type="primary" htmlType="submit">
-                  {editMode ? "Atualizar" : "Salvar"}
+                  Salvar
                 </Button>
                 <Button type="danger" htmlType="button" onClick={onCancel}>
                   Limpar

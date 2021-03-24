@@ -12,8 +12,6 @@ import {
 } from "react-icons/fc";
 import { BarChartOutlined } from "@ant-design/icons";
 
-import { IoBarChartSharp } from "react-icons/io";
-
 const Loading = () => <Spinner />;
 
 const Dashboard = Loadable({
