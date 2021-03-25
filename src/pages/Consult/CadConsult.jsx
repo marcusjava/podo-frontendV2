@@ -114,6 +114,11 @@ const CadConsult = () => {
     dispatch(saveConsult(sendData));
   };
 
+  const clearFields = () => {
+    form.resetFields();
+    setSelectedKeys([]);
+  };
+
   const handleSearch = (value) => {
     if (value === "") {
       dispatch(getClients({ limit: 50 }));
@@ -128,7 +133,7 @@ const CadConsult = () => {
   }
 
   return (
-    <Col md={12}>
+    <Col md={16}>
       <Card title="Cadastrar Consulta" bordered={false}>
         <Form
           name="new-consult"
@@ -209,8 +214,8 @@ const CadConsult = () => {
               rowKey={(record) => record._id}
               targetKeys={selectedKeys}
               listStyle={{
-                width: 350,
-                height: 450,
+                width: 500,
+                height: 500,
               }}
               dataSource={procedures.items}
               showSearch
@@ -271,11 +276,7 @@ const CadConsult = () => {
                 <Button type="primary" htmlType="submit">
                   Salvar
                 </Button>
-                <Button
-                  type="danger"
-                  htmlType="button"
-                  onClick={() => history.goBack()}
-                >
+                <Button type="danger" htmlType="button" onClick={clearFields}>
                   Cancelar
                 </Button>
               </Space>

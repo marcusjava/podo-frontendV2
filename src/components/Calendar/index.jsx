@@ -41,19 +41,16 @@ export default function Calendar() {
       <ul className="events">
         {list.map((item) => (
           <li key={item._id}>
-            <Badge
-              dot
-              title={`${dayjs(item.date).format("HH:mm")} -
-                ${item.client.name} - ${item.status}`}
+            <Link
+              to={`/home/consulta/${item._id}/anamnese`}
+              style={{ fontSize: 12, fontWeight: "bold" }}
             >
-              <Link
-                to={`/home/consulta/${item._id}/anamnese`}
-                style={{ fontSize: 12, fontWeight: "bold" }}
-              >
+              <Badge dot>
+                {" "}
                 {dayjs(item.date).format("HH:mm")} -
                 {item.client.name.slice(0, 11)} - {item.status}
-              </Link>
-            </Badge>
+              </Badge>
+            </Link>
           </li>
         ))}
       </ul>
