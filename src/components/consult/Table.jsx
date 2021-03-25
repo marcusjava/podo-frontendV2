@@ -376,7 +376,7 @@ const ConsultTable = () => {
               </Link>
             </Tooltip>
             <Tooltip title="Imprimir Ficha">
-              <Link to={`/ficha/${record.key}`}>
+              <Link to={`/ficha/${record.key}`} target="_blank">
                 <Button
                   disabled={record.status !== "Realizada"}
                   style={{

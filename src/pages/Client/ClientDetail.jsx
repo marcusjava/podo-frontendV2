@@ -36,7 +36,11 @@ const ClientDetail = () => {
 
   useEffect(() => {
     dispatch(getClient(id));
+
     dispatch(getConsults({ client_id: id }));
+    return () => {
+      dispatch({ type: "CLEAR_CLIENT_STATE" });
+    };
   }, []);
 
   const columns = [
