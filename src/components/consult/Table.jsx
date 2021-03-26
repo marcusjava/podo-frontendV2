@@ -110,7 +110,6 @@ const ConsultTable = () => {
     const pdf = await axios.get("/api/pdf", {
       url: "http://localhost:3001/api/consults/reports/consults",
     });
-    console.log(pdf);
   };
   const getColumnSearchProps = (dataIndex, name) => ({
     filterDropdown: ({
