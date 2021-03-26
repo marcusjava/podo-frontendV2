@@ -12,10 +12,11 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { getConsults, updateConsult } from "../../redux/actions/consultActions";
 import { Link } from "react-router-dom";
-import { SearchOutlined } from "@ant-design/icons";
+import { SearchOutlined, FilePdfOutlined } from "@ant-design/icons";
 import { MdEdit } from "react-icons/md";
 import { FcCancel, FcBriefcase, FcPrint } from "react-icons/fc";
 import dayjs from "dayjs";
+import axios from "axios";
 
 const { RangePicker } = DatePicker;
 
@@ -102,6 +103,14 @@ const ConsultTable = () => {
     } else {
       return;
     }
+  };
+
+  const renderPDF = async (e) => {
+    e.preventDefault();
+    const pdf = await axios.get("/api/pdf", {
+      url: "http://localhost:3001/api/consults/reports/consults",
+    });
+    console.log(pdf);
   };
   const getColumnSearchProps = (dataIndex, name) => ({
     filterDropdown: ({
@@ -403,6 +412,28 @@ const ConsultTable = () => {
       columns={columns}
       loading={loading}
       footer={(current) => `Total: ${current.length}`}
+      title={() => (
+        <div
+          style={{
+            display: "flex",
+            textAlign: "right",
+            justifyContent: "right",
+          }}
+        >
+          <div style={{ width: "30px" }}>
+            <Button style={{ padding: 0, border: 0 }} onClick={renderPDF}>
+              <FilePdfOutlined style={{ fontSize: 24 }} />
+            </Button>
+            <a
+              style={{ padding: 0, border: 0 }}
+              href="http://localhost:3001/api/pdf/consults"
+              target="_blank"
+            >
+              <FilePdfOutlined style={{ fontSize: 24 }} />
+            </a>
+          </div>
+        </div>
+      )}
     />
   );
 };
