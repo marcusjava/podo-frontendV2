@@ -105,11 +105,41 @@ const ConsultTable = () => {
     }
   };
 
-  const renderPDF = async (e) => {
+  const downloadPDF = (data, name) => {
+    const blob = new Blob([data], { type: "application/pdf" });
+    const link = document.createElement("a");
+    link.href = window.URL.createObjectURL(blob);
+    link.download = `${name}.pdf`;
+    link.click();
+  };
+
+  const consultsPDF = async (e) => {
     e.preventDefault();
-    const pdf = await axios.get("/api/pdf", {
-      url: "http://localhost:3001/api/consults/reports/consults",
-    });
+    const response = await axios.get(
+      "/pdf?url=http://localhost:3001/api/consults/reports/consults",
+      {
+        responseType: "arraybuffer",
+        headers: {
+          Accept: "application/pdf",
+        },
+      }
+    );
+
+    downloadPDF(response.data, "consults");
+  };
+
+  const docPDF = async (id) => {
+    const response = await axios.get(
+      `/pdf?url=http://localhost:3001/api/consults/reports/consults/${id}`,
+      {
+        responseType: "arraybuffer",
+        headers: {
+          Accept: "application/pdf",
+        },
+      }
+    );
+
+    downloadPDF(response.data, "consults");
   };
   const getColumnSearchProps = (dataIndex, name) => ({
     filterDropdown: ({
@@ -384,20 +414,19 @@ const ConsultTable = () => {
               </Link>
             </Tooltip>
             <Tooltip title="Imprimir Ficha">
-              <Link to={`/ficha/${record.key}`} target="_blank">
-                <Button
-                  disabled={record.status !== "Realizada"}
-                  style={{
-                    border: "none",
-                    fontSize: 25,
-                    backgroundColor: "transparent",
-                    margin: 5,
-                    padding: 0,
-                  }}
-                >
-                  <FcPrint size={24} />
-                </Button>
-              </Link>
+              <Button
+                disabled={record.status !== "Realizada"}
+                onClick={() => docPDF(record.key)}
+                style={{
+                  border: "none",
+                  fontSize: 25,
+                  backgroundColor: "transparent",
+                  margin: 5,
+                  padding: 0,
+                }}
+              >
+                <FcPrint size={24} />
+              </Button>
             </Tooltip>
           </div>
         );
@@ -420,16 +449,9 @@ const ConsultTable = () => {
           }}
         >
           <div style={{ width: "30px" }}>
-            <Button style={{ padding: 0, border: 0 }} onClick={renderPDF}>
+            <Button style={{ padding: 0, border: 0 }} onClick={consultsPDF}>
               <FilePdfOutlined style={{ fontSize: 24 }} />
             </Button>
-            <a
-              style={{ padding: 0, border: 0 }}
-              href="http://localhost:3001/api/pdf/consults"
-              target="_blank"
-            >
-              <FilePdfOutlined style={{ fontSize: 24 }} />
-            </a>
           </div>
         </div>
       )}
