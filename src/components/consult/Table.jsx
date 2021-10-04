@@ -111,21 +111,6 @@ const ConsultTable = () => {
     link.click();
   };
 
-  const consultsPDF = async (e) => {
-    e.preventDefault();
-    const response = await axios.get(
-      "/pdf?url=http://localhost:3001/api/consults/reports/consults",
-      {
-        responseType: "arraybuffer",
-        headers: {
-          Accept: "application/pdf",
-        },
-      }
-    );
-
-    downloadPDF(response.data, "consults");
-  };
-
   const docPDF = async (id) => {
     const response = await axios.get(
       `/pdf?url=https://nanapodologia.herokuapp.com/api/consults/reports/consults/${id}`,
@@ -303,9 +288,7 @@ const ConsultTable = () => {
                 flexWrap: "wrap",
               }}
             >
-              <p>
-                Nome - {procedure.name} - R$ {procedure.price}
-              </p>
+              <h4>{procedure.name}</h4>
             </div>
           );
           return (
@@ -319,7 +302,7 @@ const ConsultTable = () => {
               }}
             >
               <Popover title="Dados tecnicos" content={content}>
-                {procedure.name} - R$ {procedure.price}
+                {procedure.name}
               </Popover>
             </div>
           );
@@ -331,7 +314,7 @@ const ConsultTable = () => {
       key: "price",
       title: "Total",
       dataIndex: "price",
-      render: (price) => <strong>R$ {price}</strong>,
+      render: (price) => price && <strong>R$ {price}</strong>,
     },
     {
       key: "type_consult",

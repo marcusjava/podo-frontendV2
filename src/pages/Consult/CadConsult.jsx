@@ -70,24 +70,6 @@ const CadConsult = () => {
     option.name.toLowerCase().indexOf(inputValue.toLowerCase()) > -1;
 
   const handleChange = (targetKeys) => {
-    setPrice(0);
-    const keys = targetKeys;
-
-    const { items } = procedures;
-
-    let total = 0;
-
-    keys.forEach((key) => {
-      //pesquisar as procedures
-      const procObj = items.find((item) => item._id === key);
-
-      total += parseInt(procObj.price);
-      setPrice((total) => total + parseInt(procObj.price));
-
-      form.setFieldsValue({
-        price: total,
-      });
-    });
     setSelectedKeys(targetKeys);
   };
 
@@ -220,12 +202,12 @@ const CadConsult = () => {
               dataSource={procedures.items}
               showSearch
               filterOption={filterOption}
-              render={(item) => `${item.name} - R$ ${item.price}`}
+              render={(item) => `${item.name}`}
               onChange={handleChange}
             />
           </Form.Item>
 
-          <Form.Item name="price" label="Total">
+          <Form.Item name="price" label="Valor">
             <InputNumber size="large" />
           </Form.Item>
 
