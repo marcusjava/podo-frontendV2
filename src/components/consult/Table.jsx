@@ -128,7 +128,7 @@ const ConsultTable = () => {
 
   const docPDF = async (id) => {
     const response = await axios.get(
-      `/pdf?url=http://localhost:3001/api/consults/reports/consults/${id}`,
+      `/pdf?url=https://nanapodologia.herokuapp.com/api/consults/reports/consults/${id}`,
       {
         responseType: "arraybuffer",
         headers: {
