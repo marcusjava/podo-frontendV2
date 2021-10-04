@@ -7,13 +7,11 @@ import {
   Select,
   Spin,
   message,
-  Tooltip,
   Space,
   Row,
   Col,
 } from "antd";
 import { FcManager } from "react-icons/fc";
-import { MdEdit } from "react-icons/md";
 import {
   saveProcedure,
   updateProcedure,

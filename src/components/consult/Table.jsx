@@ -100,8 +100,6 @@ const ConsultTable = () => {
 
     if (confirm === true) {
       dispatch(updateConsult(data));
-    } else {
-      return;
     }
   };
 
@@ -267,10 +265,8 @@ const ConsultTable = () => {
               style={{ width: "125px", height: "125px", alignSelf: "center" }}
             />
             <p>Nome - {client.name}</p>
-            <p>Email - {client.email}</p>
-            <p>
-              Contato - {client.contact1} - {client.contact2}
-            </p>
+
+            <p style={{ fontWeight: "bold" }}>Contato - {client.contact}</p>
           </div>
         );
         return (
@@ -440,21 +436,6 @@ const ConsultTable = () => {
       columns={columns}
       loading={loading}
       footer={(current) => `Total: ${current.length}`}
-      title={() => (
-        <div
-          style={{
-            display: "flex",
-            textAlign: "right",
-            justifyContent: "right",
-          }}
-        >
-          <div style={{ width: "30px" }}>
-            <Button style={{ padding: 0, border: 0 }} onClick={consultsPDF}>
-              <FilePdfOutlined style={{ fontSize: 24 }} />
-            </Button>
-          </div>
-        </div>
-      )}
     />
   );
 };

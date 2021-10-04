@@ -67,7 +67,6 @@ function Profile() {
   };
 
   const handleSubmit = async (data) => {
-    console.log(data);
     try {
       const schema = Yup.object().shape({
         name: Yup.string().required("Nome obrigatorio"),

@@ -7,7 +7,6 @@ import { SearchOutlined } from "@ant-design/icons";
 
 // import { Container } from './styles';
 const { RangePicker } = DatePicker;
-const { Option } = Select;
 
 function Charts() {
   const [selectedDate, setSelectedDate] = useState([]);

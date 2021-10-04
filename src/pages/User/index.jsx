@@ -6,8 +6,7 @@ import Modal from "../../components/user/Modal";
 const User = () => {
   return (
     <Col md={24}>
-      <Row justify="center" align="middle"></Row>
-      <Row justify="end">
+      <Row>
         <Col span={24}>
           <Modal />
         </Col>
