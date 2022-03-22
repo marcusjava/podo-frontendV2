@@ -86,7 +86,6 @@ const CadClient = () => {
     try {
       const schema = Yup.object().shape({
         name: Yup.string().required("Nome obrigatorio"),
-        cpf: Yup.string().required("Informe o cpf"),
         address: Yup.object().shape({
           street: Yup.string().required("Rua obrigatoria"),
           neighborhood: Yup.string().required("Bairro obrigatorio"),
@@ -174,12 +173,6 @@ const CadClient = () => {
                 width: "16%",
                 marginRight: "25px",
               }}
-              rules={[
-                {
-                  required: true,
-                  message: "Informe o CPF",
-                },
-              ]}
             >
               <InputMask mask="99999999999">
                 {(props) => <Input {...props} />}
