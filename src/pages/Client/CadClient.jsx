@@ -268,7 +268,7 @@ const CadClient = () => {
               label="Estado"
               style={{
                 display: "inline-block",
-                width: "5%",
+                width: "6%",
                 marginRight: "15px",
               }}
               rules={[
@@ -295,7 +295,7 @@ const CadClient = () => {
               label="Cidade"
               style={{
                 display: "inline-block",
-                width: "calc(45% - 15px)",
+                width: "calc(44% - 15px)",
                 marginRight: "45px",
               }}
               rules={[
