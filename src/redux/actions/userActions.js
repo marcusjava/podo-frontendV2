@@ -25,6 +25,7 @@ export const login = (userData, history) => (dispatch) => {
       localStorage.setItem("token", token);
       setAuthToken(token);
       const decoded = jwtDecode(token);
+      console.log("TOKEN", decoded);
       dispatch(setCurrentUser(decoded));
     })
     .catch((error) => {
@@ -99,7 +100,6 @@ export const change_pwd = (data, id) => (dispatch) => {
   return axios
     .put(`/users/${id}/change_pwd`, data)
     .then((response) => {
-      console.log(response.data);
       if (response.status === 200) {
         dispatch({ type: FETCH_USER_SUCCESS, payload: {} });
         toastr.success("Senha atualizada com sucesso");

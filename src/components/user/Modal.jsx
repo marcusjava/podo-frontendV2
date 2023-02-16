@@ -89,22 +89,9 @@ const UserModal = ({ editMode = false, data }) => {
         status: data.status,
       });
     }
-  }, [editMode, visible]);
-
-  useEffect(() => {
-    if (success && visible) {
-      message.success("Usuario salvo com sucesso");
-      setVisible(false);
-      form.resetFields();
-    }
-
-    if (error && visible) {
-      form.setFields([{ name: error.path, errors: [error.message] }]);
-    }
-  }, [error, success]);
+  }, [data, editMode, form, visible]);
 
   const handleSubmit = async (data) => {
-    console.log(data);
     try {
       const schema = Yup.object().shape({
         name: Yup.string().required("Nome obrigatorio"),
@@ -137,6 +124,9 @@ const UserModal = ({ editMode = false, data }) => {
           newUser.append("password", PWD_DEFAULT);
         }
         dispatch(updateUser(newUser, data.id));
+        message.success("Usuario atualizado com sucesso");
+        setVisible(false);
+        form.resetFields();
       } else {
         const verifyPwd = Yup.object().shape({
           password: Yup.string()
@@ -148,12 +138,17 @@ const UserModal = ({ editMode = false, data }) => {
         newUser.append("password", data.password);
         newUser.append("password2", data.password2);
         dispatch(register(newUser));
+        message.success("Usuario salvo com sucesso");
+        setVisible(false);
+        form.resetFields();
       }
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         error.inner.forEach((erro) => {
           form.setFields([{ name: erro.path, errors: [erro.message] }]);
         });
+      } else {
+        form.setFields([{ name: error.path, errors: [error.message] }]);
       }
     }
   };
@@ -470,9 +465,6 @@ const UserModal = ({ editMode = false, data }) => {
               <Space>
                 <Button type="primary" htmlType="submit">
                   {editMode ? "Atualizar" : "Salvar"}
-                </Button>
-                <Button type="danger" htmlType="button" onClick={onCancel}>
-                  Limpar
                 </Button>
               </Space>
             </Col>
