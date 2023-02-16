@@ -29,10 +29,12 @@ if (localStorage.getItem("token")) {
   store.dispatch(setCurrentUser(decoded));
 }
 
-axios.defaults.baseURL =
+/* axios.defaults.baseURL =
   process.env.NODE_ENV === "development"
     ? process.env.REACT_APP_DEV_API_URL
-    : process.env.REACT_APP_API_URL;
+    : process.env.REACT_APP_API_URL; */
+
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
 axios.interceptors.request.use(
   (config) => {

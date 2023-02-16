@@ -199,12 +199,6 @@ const EditClient = () => {
                 width: "16%",
                 marginRight: "25px",
               }}
-              rules={[
-                {
-                  required: true,
-                  message: "Informe o CPF",
-                },
-              ]}
             >
               <InputMask mask="99999999999">
                 {(props) => <Input {...props} />}
@@ -412,13 +406,6 @@ const EditClient = () => {
               <Space>
                 <Button type="primary" htmlType="submit">
                   Salvar
-                </Button>
-                <Button
-                  type="danger"
-                  htmlType="button"
-                  onClick={() => form.resetFields()}
-                >
-                  Limpar
                 </Button>
               </Space>
             </Col>

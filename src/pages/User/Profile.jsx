@@ -38,6 +38,7 @@ function Profile() {
 
   const { item, loading } = useSelector((state) => state.auth.user);
 
+  console.log(item);
   useEffect(() => {
     async function getUF() {
       const response = await axios.get(
@@ -67,6 +68,7 @@ function Profile() {
   };
 
   const handleSubmit = async (data) => {
+    console.log("DADOS", data);
     try {
       const schema = Yup.object().shape({
         name: Yup.string().required("Nome obrigatorio"),
@@ -150,6 +152,9 @@ function Profile() {
             </Col>
           </Row>
           <Form.Item name="_id">
+            <Input type="hidden" />
+          </Form.Item>
+          <Form.Item name="status">
             <Input type="hidden" />
           </Form.Item>
 
@@ -347,9 +352,6 @@ function Profile() {
               <Space>
                 <Button type="primary" htmlType="submit">
                   Atualizar
-                </Button>
-                <Button type="danger" htmlType="button" onClick={onCancel}>
-                  Limpar
                 </Button>
               </Space>
             </Col>

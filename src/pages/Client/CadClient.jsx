@@ -63,7 +63,7 @@ const CadClient = () => {
     return () => {
       dispatch({ type: "CLEAR_CLIENT_STATE" });
     };
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (success) {
@@ -76,7 +76,7 @@ const CadClient = () => {
       message.error("Ocorreu um erro", [error.message]);
       form.setFields([{ name: error.path, errors: [error.message] }]);
     }
-  }, [error, success]);
+  }, [error, form, history, success]);
 
   const onChangeUF = (value) => {
     getCity(value);
@@ -101,7 +101,7 @@ const CadClient = () => {
       newClient.append("email", client.email || "");
       newClient.append("contact", client.contact);
       newClient.append("instagram", client.instagram || "");
-      newClient.append("cpf", client.cpf);
+      newClient.append("cpf", client.cpf || "");
       newClient.append("nasc", dayjs(client.nasc).format("YYYY-MM-DD"));
       newClient.append("address", JSON.stringify(client.address));
       newClient.append("occupation", client.occupation || "");
